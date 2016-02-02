@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Superimpo vs. Juxta</title>
+		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<style>
+			body,html{
+				margin:0;
+				padding:0;
+				font-family: Helvetica, sans-serif;
+			}
+
+			#svg{
+				border:1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<svg id="svg"></svg>
+		<script>
+
+			d3.json('output.php', function(data){
+				var owidth = 1200, oheight = 3000, width, height;
+					
+				var maxX = d3.max(data, function(d){return d.x;});
+				var xRatio = owidth/maxX;
+				var maxY = d3.max(data, function(d){return d.y;});
+				var yRatio = oheight/maxY;
+
+				if(xRatio < yRatio){
+					width = maxX*xRatio;
+					height = maxY*xRatio;
+				}else{
+					width = maxX*yRatio;
+					height = maxY*yRatio;
+				}
+
+				var x = d3.scale.linear()
+					.domain([0, maxX])
+					.range([0, width]);
+
+				var y = d3.scale.linear()
+					.domain([0, maxY])
+					.range([0, height]);
+
+				var color = d3.scale.linear()
+					.domain([0, d3.max(data, function(d){return d.t;})])
+					.range(['#000000', '#ff0000']);
+
+				var lineFunction = d3.svg.line()
+					.x(function(d) { return x(d.x); })
+					.y(function(d) { return y(d.y); })
+					.interpolate("linear");
+
+				var svg = d3.select("svg").attr("width", width).attr("height", height).style("width",width+"px").style("height", height+"px");
+
+				var line = svg.append("g");
+				var lines = line.selectAll("g").data(data).enter().append("g");
+
+				lines.append("path")
+					.attr("d", function(d, i){
+						i++;
+
+						if(i>=data.length){
+							i = data.length - 1;
+						}
+
+						return lineFunction([d, data[i]]);
+					})
+					.attr("stroke", function(d){ return color(d.t); })
+					.attr("stroke-width", 2)
+					.attr("fill", "none");
+
+
+
+				svg.selectAll("circle")
+					.data(data).enter().append("circle")
+					.attr("cx", function(d){ return x(d.x); })
+					.attr("cy", function(d){ return y(d.y); })
+					.style("fill", function(d){ return color(d.t); })
+					.attr("r", function(d){ if(d.a == "down"){ return 10; }else{ return 3; }});
+
+			});
+		</script>
+	</body>
+</html>

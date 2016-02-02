@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Mouse Logger</title>
+		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="../js/requestAnimationFrame.js"></script>
+		<script src="../mouse-Logger.js"></script>
+		<style>
+			div{
+				width:100%;
+				height:5000px;
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<script>
+			var logger;
+			$(function() {
+				logger = new mouseLogger(Date.now()+""+Math.round(Math.random()*Math.random()*10000), 300, 60);
+				logger.init();
+
+				window.onbeforeunload = function() {
+					logger.save();
+					return 'Thanks for using our tool.';
+				};
+
+				$(document).ready(function() {
+					$('a[rel!=ext]').click(function() { 
+						window.onbeforeunload = null;
+						logger.save();
+						//Do something
+					});
+					$('form').submit(function() { 
+						window.onbeforeunload = null;
+						logger.save(); 
+						//Do something
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
