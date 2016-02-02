@@ -1,6 +1,8 @@
 # mouse-logger
 Javascript / PHP / MySQL based Mouse logger 
 
+![Example Output](https://raw.githubusercontent.com/sebastian-meier/mouse-logger/master/thumbnail.png)
+
 The system is really easy to embed, simply add jQuery and this line of code to your website
 
 ```javascript
