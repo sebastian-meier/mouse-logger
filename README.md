@@ -6,8 +6,8 @@ The system is really easy to embed, simply add jQuery and this line of code to y
 ```javascript
 $(function() {
 	var logger = new mouseLogger(Date.now()+""+Math.round(Math.random()*Math.random()*10000), 300, 60);
+	logger.init();
 });
-logger.init();
 ```
 
 The variables passed to the logger is a (1) user_id which is stored with the data, the maximum number of logs before send to the server, as well as the precision (fps) of the system. This system does not log absolute time or anything else, this system is supposed to be used with another logging system, if you use another logging system, instead of passing this random number to the logger, pass the user_id your other logger generates to the logger.
