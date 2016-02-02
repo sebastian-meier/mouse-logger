@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Superimpo vs. Juxta</title>
+		<title>Mouse Logger</title>
 		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="http://d3js.org/d3.v3.min.js"></script>
 		<style>
@@ -22,7 +22,7 @@
 		<script>
 
 			d3.json('output.php', function(data){
-				var owidth = 1200, oheight = 3000, width, height;
+				var owidth = 1200, oheight = 5000, width, height;
 					
 				var maxX = d3.max(data, function(d){return d.x;});
 				var xRatio = owidth/maxX;
